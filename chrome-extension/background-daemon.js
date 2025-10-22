@@ -592,6 +592,47 @@
     messageHandlers.set('browser_screenshot', async (args) => {
       return await messageHandlers.get('screenshot.capture')(args);
     });
+
+    // Download file handler - uses browser's authenticated session to fetch files
+    messageHandlers.set('download_file', async ({ url, _envelopeTabId }) => {
+      if (!url) {
+        throw new Error('download_file requires url parameter');
+      }
+
+      try {
+        // Use fetch API in the background context to download the file
+        // This uses the browser's cookies and authentication
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          return {
+            success: false,
+            error: `HTTP ${response.status}: ${response.statusText}`
+          };
+        }
+
+        // Convert response to base64
+        const arrayBuffer = await response.arrayBuffer();
+        const bytes = new Uint8Array(arrayBuffer);
+        let binary = '';
+        for (let i = 0; i < bytes.byteLength; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+        const base64 = btoa(binary);
+
+        return {
+          success: true,
+          data: base64,
+          contentType: response.headers.get('content-type'),
+          size: arrayBuffer.byteLength
+        };
+      } catch (error) {
+        return {
+          success: false,
+          error: error.message || 'Download failed'
+        };
+      }
+    });
   }
 
   async function handleMessage(msg) {

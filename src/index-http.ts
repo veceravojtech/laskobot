@@ -31,7 +31,7 @@ import { InstanceRegistry } from "./instance-registry";
 import packageJSON from "../package.json";
 
 const commonTools: Tool[] = [pressKey, wait];
-const customTools: Tool[] = [custom.getConsoleLogs, custom.screenshot];
+const customTools: Tool[] = [custom.getConsoleLogs, custom.screenshot, custom.downloadFile];
 const tabTools: Tool[] = [browser_tab];
 const scaffoldTools: Tool[] = [];
 const codeExecutionTools: Tool[] = [executeJS];
@@ -411,12 +411,15 @@ program
       let sessionId = sessionIdFromHeaders(req);
       let session: SessionState | undefined = sessionId ? sessions.get(sessionId) : undefined;
 
+      // Auto-create session if client provides a session ID that doesn't exist yet
+      // This allows clients to use deterministic session IDs (e.g., orchestrator session names)
       if (sessionId && !session) {
-        res.writeHead(404, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ error: "Unknown MCP session" }));
-        return;
+        console.error(`[BrowserMCP HTTP] Auto-creating session for provided ID: ${sessionId}`);
+        instanceRegistry.ensure(sessionId);
+        session = await createSession(sessionId);
       }
 
+      // Create new session with random UUID if no session ID provided
       if (!session) {
         sessionId = randomUUID();
         instanceRegistry.ensure(sessionId);

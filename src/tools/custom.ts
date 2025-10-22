@@ -2,8 +2,10 @@ import { zodToJsonSchema } from "zod-to-json-schema";
 import * as fs from "fs";
 import * as path from "path";
 import sharp from "sharp";
+import * as https from "https";
+import * as http from "http";
 
-import { GetConsoleLogsTool, ScreenshotTool } from "../types/tool";
+import { GetConsoleLogsTool, ScreenshotTool, DownloadFileTool } from "../types/tool";
 
 import { Tool } from "./tool";
 import { loadScreenshotConfig } from "../config/screenshot";
@@ -106,7 +108,7 @@ export const getConsoleLogs: Tool = {
     }
 
     // Fallback to simple JSON formatting for old response format
-    const text: string = response.logs
+    const text: string = (response.logs || [])
       .map((log) => JSON.stringify(log))
       .join("\n");
     return {
@@ -536,3 +538,144 @@ export const screenshot: Tool = {
     return { content };
   },
 };
+
+export const downloadFile: Tool = {
+  schema: {
+    name: DownloadFileTool.shape.name.value,
+    description: DownloadFileTool.shape.description.value,
+    inputSchema: zodToJsonSchema(DownloadFileTool.shape.arguments),
+  },
+  handle: async (context, params) => {
+    const args = DownloadFileTool.shape.arguments.parse(params || {});
+
+    // Use custom directory or default to screenshot directory
+    const downloadDir = args.saveDir || SCREENSHOT_CONFIG.auditDir;
+    if (!fs.existsSync(downloadDir)) {
+      fs.mkdirSync(downloadDir, { recursive: true });
+    }
+
+    // Generate filename if not provided
+    let filename = args.filename;
+    if (!filename) {
+      // Try to extract filename from URL
+      const urlPath = new URL(args.url).pathname;
+      const urlFilename = path.basename(urlPath);
+
+      if (urlFilename && urlFilename.includes('.')) {
+        filename = urlFilename;
+      } else {
+        // Generate timestamp-based filename with appropriate extension
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+        const ext = urlFilename.includes('.') ? path.extname(urlFilename) : '.bin';
+        filename = `downloaded-${timestamp}${ext}`;
+      }
+    }
+
+    const filepath = path.join(downloadDir, filename);
+
+    try {
+      // Request file download through browser extension to use session cookies
+      const response = await context.sendSocketMessage(
+        "download_file",
+        { url: args.url }
+      );
+
+      if (!response.success) {
+        return {
+          content: [{
+            type: "text",
+            text: `Failed to download file: ${response.error || 'Unknown error'}`
+          }],
+          isError: true,
+        };
+      }
+
+      // Response should contain base64 data
+      let fileData = response.data;
+      if (!fileData) {
+        // Fallback to direct HTTP download if extension doesn't support it
+        fileData = await downloadFileDirect(args.url);
+      }
+
+      // Clean base64 data if needed
+      if (fileData.startsWith('data:')) {
+        const parts = fileData.split(',');
+        fileData = parts[1] || fileData;
+      }
+
+      // Save to file
+      const buffer = Buffer.from(fileData, 'base64');
+      fs.writeFileSync(filepath, buffer);
+
+      const stats = fs.statSync(filepath);
+      const fileSizeKB = Math.round(stats.size / 1024);
+      const fileType = path.extname(filename).slice(1).toUpperCase() || 'File';
+
+      return {
+        content: [{
+          type: "text",
+          text: `${fileType} downloaded successfully!\n\nFile path: ${filepath}\nFile size: ${fileSizeKB}KB\n\n${fileType === 'PNG' || fileType === 'JPG' || fileType === 'JPEG' || fileType === 'GIF' || fileType === 'WEBP' ? 'You can now read this image using the Read tool.' : 'File saved to disk.'}`
+        }],
+      };
+    } catch (error) {
+      // Fallback to direct download if browser extension method fails
+      try {
+        const fileData = await downloadFileDirect(args.url);
+        const buffer = Buffer.from(fileData, 'base64');
+        fs.writeFileSync(filepath, buffer);
+
+        const stats = fs.statSync(filepath);
+        const fileSizeKB = Math.round(stats.size / 1024);
+        const fileType = path.extname(filename).slice(1).toUpperCase() || 'File';
+
+        return {
+          content: [{
+            type: "text",
+            text: `${fileType} downloaded successfully (direct download)!\n\nFile path: ${filepath}\nFile size: ${fileSizeKB}KB\n\n${fileType === 'PNG' || fileType === 'JPG' || fileType === 'JPEG' || fileType === 'GIF' || fileType === 'WEBP' ? 'You can now read this image using the Read tool.' : 'File saved to disk.'}`
+          }],
+        };
+      } catch (fallbackError) {
+        return {
+          content: [{
+            type: "text",
+            text: `Failed to download file: ${error.message}\nFallback also failed: ${fallbackError.message}`
+          }],
+          isError: true,
+        };
+      }
+    }
+  },
+};
+
+// Helper function to download file directly (fallback when extension doesn't support it)
+async function downloadFileDirect(url: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const urlObj = new URL(url);
+    const protocol = urlObj.protocol === 'https:' ? https : http;
+
+    protocol.get(url, (response) => {
+      if (response.statusCode !== 200) {
+        reject(new Error(`HTTP ${response.statusCode}: ${response.statusMessage}`));
+        return;
+      }
+
+      const chunks: Buffer[] = [];
+
+      response.on('data', (chunk: Buffer) => {
+        chunks.push(chunk);
+      });
+
+      response.on('end', () => {
+        const buffer = Buffer.concat(chunks);
+        const base64 = buffer.toString('base64');
+        resolve(base64);
+      });
+
+      response.on('error', (error) => {
+        reject(error);
+      });
+    }).on('error', (error) => {
+      reject(error);
+    });
+  });
+}

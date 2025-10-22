@@ -194,3 +194,13 @@ export const DragTool = z.object({
     element: z.string().describe("Human-readable element description used to obtain permission to interact with the element"),
   }),
 });
+
+export const DownloadFileTool = z.object({
+  name: z.literal("browser_download_file"),
+  description: z.literal("Download a file from a URL and save it to disk, returning the file path. Uses browser session cookies/authentication. Supports images, PDFs, documents, etc."),
+  arguments: z.object({
+    url: z.string().describe("URL of the file to download"),
+    filename: z.string().optional().describe("Optional filename (without path). If not provided, generates from URL or timestamp"),
+    saveDir: z.string().optional().describe("Optional save directory (default: /tmp/claude_images)"),
+  }),
+});

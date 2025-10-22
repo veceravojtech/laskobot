@@ -1,0 +1,189 @@
+[BrowserMCP Daemon] 2025-10-22T22:40:03.636Z WebSocket daemon listening on ws://localhost:8765
+[BrowserMCP Daemon] 2025-10-22T22:40:03.637Z Forwarding MCP HTTP traffic to http://127.0.0.1:3000
+[BrowserMCP Daemon] 2025-10-22T22:40:19.489Z Extension connected for session 8c14d99d-5e55-4653-bbde-dd3026aadf2d
+[BrowserMCP Daemon] 2025-10-22T22:41:18.647Z Creating new session e2e-test-1761172839 from existing connection 8c14d99d-5e55-4653-bbde-dd3026aadf2d
+[BrowserMCP Daemon] 2025-10-22T22:41:18.647Z Session e2e-test-1761172839 registered, will use shared WebSocket
+[BrowserMCP Daemon] 2025-10-22T22:41:18.647Z Command for session e2e-test-1761172839 received at daemon (incoming tab: auto)
+[BrowserMCP Daemon] 2025-10-22T22:41:18.649Z Routing command {
+  sessionId: 'e2e-test-1761172839',
+  name: 'browser_navigate',
+  wireId: '223b6703-3aaf-4344-abdf-c2cc702ef09a',
+  selectedTab: 'auto',
+  currentTab: undefined
+}
+[BrowserMCP Daemon] 2025-10-22T22:41:18.813Z Command resolved {
+  sessionId: 'e2e-test-1761172839',
+  wireId: '223b6703-3aaf-4344-abdf-c2cc702ef09a',
+  tabLearned: 1569290717
+}
+[BrowserMCP Daemon] 2025-10-22T22:41:18.816Z Failed to forward message to MCP server: TypeError: fetch failed
+    at Object.fetch (node:internal/deps/undici/undici:11360:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async forwardToMcp (file:///home/console/PhpstormProjects/mcp/laskobot/dist/daemon/websocket-daemon.js:41:22) {
+  cause: Error: connect ECONNREFUSED 127.0.0.1:3000
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 3000
+  }
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:35.189Z Creating new session orchestrator-supervisor_41d56ed7_20251023_004134 from existing connection 8c14d99d-5e55-4653-bbde-dd3026aadf2d
+[BrowserMCP Daemon] 2025-10-22T22:42:35.189Z Session orchestrator-supervisor_41d56ed7_20251023_004134 registered, will use shared WebSocket
+[BrowserMCP Daemon] 2025-10-22T22:42:35.189Z Command for session orchestrator-supervisor_41d56ed7_20251023_004134 received at daemon (incoming tab: auto)
+[BrowserMCP Daemon] 2025-10-22T22:42:35.189Z Routing command {
+  sessionId: 'orchestrator-supervisor_41d56ed7_20251023_004134',
+  name: 'browser_navigate',
+  wireId: 'f1fd6b18-ea44-4458-8645-3138ec554b76',
+  selectedTab: 'auto',
+  currentTab: undefined
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:35.733Z Command resolved {
+  sessionId: 'orchestrator-supervisor_41d56ed7_20251023_004134',
+  wireId: 'f1fd6b18-ea44-4458-8645-3138ec554b76',
+  tabLearned: 1569290721
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:35.733Z Failed to forward message to MCP server: TypeError: fetch failed
+    at Object.fetch (node:internal/deps/undici/undici:11360:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async forwardToMcp (file:///home/console/PhpstormProjects/mcp/laskobot/dist/daemon/websocket-daemon.js:41:22) {
+  cause: Error: connect ECONNREFUSED 127.0.0.1:3000
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 3000
+  }
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:35.737Z Command for session orchestrator-supervisor_41d56ed7_20251023_004134 received at daemon (incoming tab: auto)
+[BrowserMCP Daemon] 2025-10-22T22:42:35.738Z Routing command {
+  sessionId: 'orchestrator-supervisor_41d56ed7_20251023_004134',
+  name: 'snapshot.accessibility',
+  wireId: '218c635f-0368-4946-ab6e-c9d109183c0f',
+  selectedTab: '1569290721',
+  currentTab: '1569290721'
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:35.747Z Command resolved {
+  sessionId: 'orchestrator-supervisor_41d56ed7_20251023_004134',
+  wireId: '218c635f-0368-4946-ab6e-c9d109183c0f',
+  tabLearned: 1569290721
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:35.748Z Failed to forward message to MCP server: TypeError: fetch failed
+    at Object.fetch (node:internal/deps/undici/undici:11360:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async forwardToMcp (file:///home/console/PhpstormProjects/mcp/laskobot/dist/daemon/websocket-daemon.js:41:22) {
+  cause: Error: connect ECONNREFUSED 127.0.0.1:3000
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 3000
+  }
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:42.895Z Command for session orchestrator-supervisor_41d56ed7_20251023_004134 received at daemon (incoming tab: auto)
+[BrowserMCP Daemon] 2025-10-22T22:42:42.895Z Routing command {
+  sessionId: 'orchestrator-supervisor_41d56ed7_20251023_004134',
+  name: 'dom.type',
+  wireId: '0e4eceae-0e83-49d9-879c-30f265042e14',
+  selectedTab: '1569290721',
+  currentTab: '1569290721'
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:42.900Z Command resolved {
+  sessionId: 'orchestrator-supervisor_41d56ed7_20251023_004134',
+  wireId: '0e4eceae-0e83-49d9-879c-30f265042e14',
+  tabLearned: 1569290721
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:42.901Z Failed to forward message to MCP server: TypeError: fetch failed
+    at Object.fetch (node:internal/deps/undici/undici:11360:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async forwardToMcp (file:///home/console/PhpstormProjects/mcp/laskobot/dist/daemon/websocket-daemon.js:41:22) {
+  cause: Error: connect ECONNREFUSED 127.0.0.1:3000
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 3000
+  }
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:42.902Z Command for session orchestrator-supervisor_41d56ed7_20251023_004134 received at daemon (incoming tab: auto)
+[BrowserMCP Daemon] 2025-10-22T22:42:42.903Z Routing command {
+  sessionId: 'orchestrator-supervisor_41d56ed7_20251023_004134',
+  name: 'snapshot.accessibility',
+  wireId: '506f2102-f271-43a6-b9e8-5c1e386c7849',
+  selectedTab: '1569290721',
+  currentTab: '1569290721'
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:42.915Z Command resolved {
+  sessionId: 'orchestrator-supervisor_41d56ed7_20251023_004134',
+  wireId: '506f2102-f271-43a6-b9e8-5c1e386c7849',
+  tabLearned: 1569290721
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:42.916Z Failed to forward message to MCP server: TypeError: fetch failed
+    at Object.fetch (node:internal/deps/undici/undici:11360:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async forwardToMcp (file:///home/console/PhpstormProjects/mcp/laskobot/dist/daemon/websocket-daemon.js:41:22) {
+  cause: Error: connect ECONNREFUSED 127.0.0.1:3000
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 3000
+  }
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:49.614Z Command for session orchestrator-supervisor_41d56ed7_20251023_004134 received at daemon (incoming tab: auto)
+[BrowserMCP Daemon] 2025-10-22T22:42:49.614Z Routing command {
+  sessionId: 'orchestrator-supervisor_41d56ed7_20251023_004134',
+  name: 'browser_wait',
+  wireId: 'ce60517f-e653-4255-9713-ec6ce9e570a4',
+  selectedTab: '1569290721',
+  currentTab: '1569290721'
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:49.617Z Command resolved {
+  sessionId: 'orchestrator-supervisor_41d56ed7_20251023_004134',
+  wireId: 'ce60517f-e653-4255-9713-ec6ce9e570a4',
+  tabLearned: 1569290721
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:49.618Z Failed to forward message to MCP server: TypeError: fetch failed
+    at Object.fetch (node:internal/deps/undici/undici:11360:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async forwardToMcp (file:///home/console/PhpstormProjects/mcp/laskobot/dist/daemon/websocket-daemon.js:41:22) {
+  cause: Error: connect ECONNREFUSED 127.0.0.1:3000
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 3000
+  }
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:52.733Z Command for session orchestrator-supervisor_41d56ed7_20251023_004134 received at daemon (incoming tab: auto)
+[BrowserMCP Daemon] 2025-10-22T22:42:52.733Z Routing command {
+  sessionId: 'orchestrator-supervisor_41d56ed7_20251023_004134',
+  name: 'snapshot.accessibility',
+  wireId: '1491ea9b-34d5-4346-bb25-2512c6878c2b',
+  selectedTab: '1569290721',
+  currentTab: '1569290721'
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:52.741Z Command resolved {
+  sessionId: 'orchestrator-supervisor_41d56ed7_20251023_004134',
+  wireId: '1491ea9b-34d5-4346-bb25-2512c6878c2b',
+  tabLearned: 1569290721
+}
+[BrowserMCP Daemon] 2025-10-22T22:42:52.742Z Failed to forward message to MCP server: TypeError: fetch failed
+    at Object.fetch (node:internal/deps/undici/undici:11360:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async forwardToMcp (file:///home/console/PhpstormProjects/mcp/laskobot/dist/daemon/websocket-daemon.js:41:22) {
+  cause: Error: connect ECONNREFUSED 127.0.0.1:3000
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1549:16) {
+    errno: -111,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 3000
+  }
+}

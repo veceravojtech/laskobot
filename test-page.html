@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser MCP Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        h2 { color: #666; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover { background: #0056b3; }
+        input, textarea, select {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 300px;
+        }
+        .hidden { display: none; }
+        .tall-content {
+            height: 1500px;
+            background: linear-gradient(to bottom, #fff, #e0e0e0);
+            padding: 20px;
+        }
+        #result-box {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            min-height: 50px;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 5px;
+        }
+        .dropdown-menu.show { display: block; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th { background-color: #007bff; color: white; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Browser MCP Comprehensive Test Page</h1>
+
+    <div class="section">
+        <h2>1. Navigation & Basic Interactions</h2>
+        <button id="btn-alert" onclick="alert('Alert clicked!')">Show Alert</button>
+        <button id="btn-console" onclick="console.log('Test log message', {timestamp: Date.now()})">Log to Console</button>
+        <button id="btn-error" onclick="console.error('Test error message')">Log Error</button>
+        <button id="btn-navigate" onclick="window.location.hash = '#section2'">Navigate to Section 2</button>
+        <div id="result-box">Click buttons to see results...</div>
+    </div>
+
+    <div class="section">
+        <h2>2. Form Elements</h2>
+        <form id="test-form" onsubmit="event.preventDefault(); document.getElementById('form-result').textContent = 'Form submitted!'">
+            <div>
+                <label>Text Input:</label>
+                <input type="text" id="text-input" name="username" placeholder="Enter username" />
+            </div>
+            <div>
+                <label>Email:</label>
+                <input type="email" id="email-input" name="email" placeholder="your@email.com" />
+            </div>
+            <div>
+                <label>Password:</label>
+                <input type="password" id="password-input" name="password" placeholder="Password" />
+            </div>
+            <div>
+                <label>Textarea:</label>
+                <textarea id="textarea-input" name="message" placeholder="Enter message"></textarea>
+            </div>
+            <div>
+                <label>Select:</label>
+                <select id="select-basic" name="country">
+                    <option value="">Choose country</option>
+                    <option value="us">United States</option>
+                    <option value="uk">United Kingdom</option>
+                    <option value="ca">Canada</option>
+                    <option value="au">Australia</option>
+                </select>
+            </div>
+            <div>
+                <label>Multi-select:</label>
+                <select id="select-multi" name="languages" multiple>
+                    <option value="js">JavaScript</option>
+                    <option value="py">Python</option>
+                    <option value="java">Java</option>
+                    <option value="go">Go</option>
+                </select>
+            </div>
+            <div>
+                <label>Checkbox:</label>
+                <input type="checkbox" id="checkbox-1" name="agree" value="yes" />
+                <label for="checkbox-1">I agree to terms</label>
+            </div>
+            <div>
+                <label>Radio:</label>
+                <input type="radio" id="radio-1" name="plan" value="free" />
+                <label for="radio-1">Free</label>
+                <input type="radio" id="radio-2" name="plan" value="pro" />
+                <label for="radio-2">Pro</label>
+            </div>
+            <div>
+                <button type="submit">Submit Form</button>
+                <button type="reset">Reset</button>
+            </div>
+            <div id="form-result" style="margin-top: 10px; color: green;"></div>
+        </form>
+    </div>
+
+    <div class="section">
+        <h2 id="section2">3. Click & Hover Interactions</h2>
+        <button id="click-counter" onclick="this.textContent = 'Clicked ' + (parseInt(this.dataset.count || 0) + 1) + ' times'; this.dataset.count = parseInt(this.dataset.count || 0) + 1">
+            Click Counter
+        </button>
+        <button id="hover-target"
+                onmouseenter="this.style.background='#28a745'"
+                onmouseleave="this.style.background='#007bff'">
+            Hover Me
+        </button>
+        <button id="double-click" ondblclick="this.textContent = 'Double Clicked!'">
+            Double Click Me
+        </button>
+        <div style="margin-top: 10px;">
+            <button id="toggle-btn" onclick="document.getElementById('hidden-content').classList.toggle('hidden')">
+                Toggle Hidden Content
+            </button>
+            <div id="hidden-content" class="hidden" style="margin-top: 10px; padding: 10px; background: #e7f3ff; border-radius: 4px;">
+                🎉 Hidden content revealed!
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>4. Dynamic Content & AJAX Simulation</h2>
+        <button id="load-data" onclick="loadDynamicData()">Load Dynamic Data</button>
+        <button id="clear-data" onclick="document.getElementById('dynamic-content').innerHTML = ''">Clear Data</button>
+        <div id="dynamic-content" style="margin-top: 10px;"></div>
+
+        <script>
+            function loadDynamicData() {
+                const container = document.getElementById('dynamic-content');
+                container.innerHTML = '<p>Loading...</p>';
+                setTimeout(() => {
+                    container.innerHTML = `
+                        <table>
+                            <tr><th>ID</th><th>Name</th><th>Email</th></tr>
+                            <tr><td>1</td><td>John Doe</td><td>john@example.com</td></tr>
+                            <tr><td>2</td><td>Jane Smith</td><td>jane@example.com</td></tr>
+                            <tr><td>3</td><td>Bob Johnson</td><td>bob@example.com</td></tr>
+                        </table>
+                    `;
+                }, 500);
+            }
+        </script>
+    </div>
+
+    <div class="section">
+        <h2>5. Links & Navigation</h2>
+        <p><a href="#top" id="link-internal">Internal Link (Top)</a></p>
+        <p><a href="https://example.com" id="link-external" target="_blank">External Link</a></p>
+        <p><a href="mailto:test@example.com" id="link-email">Email Link</a></p>
+        <p><a href="javascript:void(0)" id="link-js" onclick="alert('JS Link clicked')">JavaScript Link</a></p>
+    </div>
+
+    <div class="section">
+        <h2>6. Modal & Popup Simulation</h2>
+        <button onclick="document.getElementById('modal').style.display='block'">Open Modal</button>
+        <div id="modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:1000;">
+            <div style="background:white; width:400px; margin:100px auto; padding:20px; border-radius:8px;">
+                <h3>Modal Dialog</h3>
+                <p>This is a modal dialog for testing.</p>
+                <button onclick="document.getElementById('modal').style.display='none'">Close Modal</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>7. File Upload</h2>
+        <input type="file" id="file-input" accept=".txt,.pdf,.jpg,.png" />
+        <input type="file" id="file-multi" multiple accept="image/*" />
+        <div id="file-info" style="margin-top: 10px;"></div>
+        <script>
+            document.getElementById('file-input').addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    document.getElementById('file-info').textContent =
+                        `File selected: ${file.name} (${file.size} bytes, ${file.type})`;
+                }
+            });
+        </script>
+    </div>
+
+    <div class="section tall-content">
+        <h2>8. Scroll Testing Area</h2>
+        <p id="scroll-marker-top">⬆️ TOP OF SCROLL SECTION</p>
+        <p>Scroll down to test scrolling functionality...</p>
+        <div style="height: 400px; background: #f0f0f0; margin: 20px 0; padding: 20px;">
+            <p>Middle content area</p>
+        </div>
+        <p id="scroll-marker-bottom">⬇️ BOTTOM OF SCROLL SECTION</p>
+    </div>
+
+    <div class="section">
+        <h2>9. Accessibility Elements</h2>
+        <button aria-label="Settings" title="Open Settings">⚙️</button>
+        <button aria-label="Profile" title="View Profile">👤</button>
+        <button aria-label="Notifications" title="View Notifications">🔔</button>
+        <div role="status" aria-live="polite" id="live-region">
+            Status updates will appear here
+        </div>
+        <button onclick="document.getElementById('live-region').textContent = 'Status updated at ' + new Date().toLocaleTimeString()">
+            Update Status
+        </button>
+    </div>
+
+    <div class="section">
+        <h2>10. Console Test Outputs</h2>
+        <button onclick="console.log('INFO: Test log')">Log Info</button>
+        <button onclick="console.warn('WARNING: Test warning')">Log Warning</button>
+        <button onclick="console.error('ERROR: Test error')">Log Error</button>
+        <button onclick="console.debug('DEBUG: Test debug')">Log Debug</button>
+        <button onclick="console.table([{name: 'Test', value: 123}])">Log Table</button>
+    </div>
+
+    <div class="section" id="extract-test">
+        <h2>11. HTML Extraction Test</h2>
+        <div class="product-list">
+            <div class="product" data-id="1">
+                <h3 class="product-title">Product A</h3>
+                <p class="product-price">$19.99</p>
+                <a href="/product/1" class="product-link">View Details</a>
+            </div>
+            <div class="product" data-id="2">
+                <h3 class="product-title">Product B</h3>
+                <p class="product-price">$29.99</p>
+                <a href="/product/2" class="product-link">View Details</a>
+            </div>
+            <div class="product" data-id="3">
+                <h3 class="product-title">Product C</h3>
+                <p class="product-price">$39.99</p>
+                <a href="/product/3" class="product-link">View Details</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" style="margin-bottom: 100px;">
+        <h2>12. End of Page</h2>
+        <p id="page-bottom">🏁 You've reached the bottom of the test page!</p>
+        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Back to Top</button>
+    </div>
+
+    <script>
+        // Add some console logs on page load
+        console.log('Test page loaded successfully');
+        console.log('Page timestamp:', new Date().toISOString());
+        console.log('User agent:', navigator.userAgent);
+    </script>
+</body>
+</html>

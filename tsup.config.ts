@@ -8,18 +8,39 @@ export default defineConfig({
     'src/index-unified.ts',
     'src/daemon/websocket-daemon.ts'
   ],
-  format: ['cjs'],
+  format: ['esm'],
 
   // Target platform
   platform: 'node',
 
-  // Bundle all dependencies except native modules
-  noExternal: [/^(?!sharp$|better-sqlite3$).*/],
-
-  // Keep only native modules external (C++ bindings)
+  // Keep native modules and all node built-ins external
   external: [
     'sharp',
-    'better-sqlite3'
+    'better-sqlite3',
+    // Node.js built-in modules - must not be bundled for ESM
+    'events',
+    'stream',
+    'util',
+    'path',
+    'fs',
+    'crypto',
+    'http',
+    'https',
+    'net',
+    'tls',
+    'zlib',
+    'os',
+    'process',
+    'buffer',
+    'child_process',
+    'async_hooks',
+    'url',
+    'querystring',
+    'assert',
+    'dns',
+    'readline',
+    'string_decoder',
+    'timers'
   ],
 
   // Generate sourcemaps for debugging
@@ -37,6 +58,6 @@ export default defineConfig({
   // Transpile target
   target: 'node20',
 
-  // Post-build: rename .cjs → .js and set executable bit
-  onSuccess: 'find dist -name "*.cjs" -exec bash -c \'mv "$0" "${0%.cjs}.js"\' {} \\; && shx chmod +x dist/*.js dist/**/*.js'
+  // Post-build: set executable bit for entry points
+  onSuccess: 'shx chmod +x dist/*.js dist/**/*.js'
 })

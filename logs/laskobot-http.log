@@ -1,0 +1,20 @@
+[BrowserMCP HTTP] Server listening on http://localhost:3100/mcp
+[BrowserMCP HTTP] Version: 1.33.0
+[BrowserMCP HTTP] Session-based multi-instance routing enabled
+[BrowserMCP HTTP] Auto-creating session as requested: e2e-test-1761172839
+[BrowserMCP] HTTP mode: WebSocket servers will be created per Claude instance
+[Storage] disabled (no SUPABASE_* env)
+[BrowserMCP HTTP] Session initialized: e2e-test-1761172839
+[BrowserMCP HTTP] Active sessions: 1
+[SessionStore] Saved session: e2e-test-1761172839
+[BrowserMCP] HTTP mode: WebSocket servers will be created per Claude instance
+[Storage] disabled (no SUPABASE_* env)
+[BrowserMCP HTTP] Session initialized: orchestrator-supervisor_41d56ed7_20251023_004134
+[BrowserMCP HTTP] Active sessions: 2
+[SessionStore] Saved session: orchestrator-supervisor_41d56ed7_20251023_004134
+[captureAriaSnapshot] Options: { mode: 'scaffold' } useScaffold: true
+[captureAriaSnapshot] Sending scaffold mode request
+[captureAriaSnapshot] Options: {} useScaffold: true
+[captureAriaSnapshot] Sending scaffold mode request
+[captureAriaSnapshot] Options: { level: undefined, viewportOnly: undefined, mode: undefined } useScaffold: true
+[captureAriaSnapshot] Sending scaffold mode request
