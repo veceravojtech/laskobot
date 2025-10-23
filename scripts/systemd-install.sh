@@ -26,8 +26,10 @@ EOF
 
 USER_NAME=$(id -un)
 GROUP_NAME=$(id -gn)
-USER_HOME=$(eval echo ~${USER_NAME})
-INSTALL_DIR="${USER_HOME}/.local/lib/browsermcp-enhanced"
+CUSTOM_GROUP=0
+USER_HOME=""
+INSTALL_DIR=""
+INSTALL_DIR_SET=0
 HTTP_PORT=3100
 WS_PORT=8765
 ENV_FILE="/etc/default/browsermcp"
@@ -36,8 +38,8 @@ RESTART=1
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --user) USER_NAME="$2"; shift 2 ;;
-    --group) GROUP_NAME="$2"; shift 2 ;;
-    --install-dir) INSTALL_DIR="$2"; shift 2 ;;
+    --group) GROUP_NAME="$2"; CUSTOM_GROUP=1; shift 2 ;;
+    --install-dir) INSTALL_DIR="$2"; INSTALL_DIR_SET=1; shift 2 ;;
     --http-port) HTTP_PORT="$2"; shift 2 ;;
     --ws-port) WS_PORT="$2"; shift 2 ;;
     --env-file) ENV_FILE="$2"; shift 2 ;;
@@ -46,6 +48,18 @@ while [[ $# -gt 0 ]]; do
     *) echo "Unknown option: $1"; usage; exit 1 ;;
   esac
 done
+
+if [[ -z "$USER_HOME" ]]; then
+  USER_HOME=$(eval echo ~"${USER_NAME}")
+fi
+
+if [[ "$CUSTOM_GROUP" -eq 0 ]]; then
+  GROUP_NAME=$(id -gn "${USER_NAME}")
+fi
+
+if [[ "$INSTALL_DIR_SET" -eq 0 ]]; then
+  INSTALL_DIR="${USER_HOME}/.local/lib/browsermcp-enhanced"
+fi
 
 HTTP_UNIT_SRC="debian/systemd/browsermcp-http.service"
 DAEMON_UNIT_SRC="debian/systemd/browsermcp-daemon.service"
@@ -96,4 +110,3 @@ fi
 echo "Done. Status:";
 systemctl --no-pager --full status browsermcp-http.service | sed -n '1,10p'
 systemctl --no-pager --full status browsermcp-daemon.service | sed -n '1,10p'
-

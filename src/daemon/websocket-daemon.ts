@@ -415,6 +415,43 @@ const httpServer = createServer(async (req, res) => {
     return;
   }
 
+  if (method === "POST" && url.pathname === "/session/register") {
+    let body = "";
+    for await (const chunk of req) {
+      body += chunk.toString();
+    }
+
+    let payload: any;
+    try {
+      payload = body ? JSON.parse(body) : {};
+    } catch {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Invalid JSON" }));
+      return;
+    }
+
+    const { sessionId } = payload;
+    if (!sessionId) {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Missing sessionId" }));
+      return;
+    }
+
+    // Pre-register session for HTTP server sessions
+    // When extension connects, it will use session aliasing to reuse existing connection
+    log(`Pre-registering session from HTTP server: ${sessionId}`);
+    logToFile({ src: 'session-preregister', sessionId, source: payload.source || 'unknown' });
+
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({
+      status: "registered",
+      sessionId,
+      note: "Session pre-registered. Will use connection aliasing when extension connects.",
+      timestamp: Date.now()
+    }));
+    return;
+  }
+
   res.writeHead(404, { "Content-Type": "application/json" });
   res.end(JSON.stringify({ error: "Not Found" }));
 });

@@ -245,6 +245,36 @@ program
       sessions.set(sessionId, state);
       console.error(`[BrowserMCP HTTP] Session initialized: ${sessionId}`);
       console.error(`[BrowserMCP HTTP] Active sessions: ${sessions.size}`);
+
+      // Register session with WebSocket daemon for browser extension connectivity
+      const DAEMON_URL = process.env.BROWSER_MCP_DAEMON_URL || 'http://127.0.0.1:8765';
+      try {
+        const response = await fetch(`${DAEMON_URL}/session/register`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Session-ID': sessionId
+          },
+          body: JSON.stringify({
+            sessionId,
+            createdAt: Date.now(),
+            source: 'http-server',
+            instanceId: sessionId
+          }),
+          signal: AbortSignal.timeout(2000) // 2 second timeout
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          console.error(`[BrowserMCP HTTP] ✓ Session registered with daemon: ${sessionId}`, result);
+        } else {
+          console.warn(`[BrowserMCP HTTP] Daemon registration failed: ${response.status} ${response.statusText}`);
+        }
+      } catch (error) {
+        // Non-fatal - daemon might not be running or unreachable
+        console.warn(`[BrowserMCP HTTP] Daemon registration error (non-fatal):`, error instanceof Error ? error.message : String(error));
+      }
+
       return state;
     };
 
